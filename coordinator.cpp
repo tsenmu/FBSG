@@ -1,6 +1,9 @@
 #include "coordinator.h"
 #include "config.h"
 #include <QDateTime>
+#include <QFile>
+#include <QDataStream>
+#include "playermanager.h"
 
 Coordinator* Coordinator::coord = 0;
 
@@ -44,13 +47,25 @@ void Coordinator::saveCurrentConf()
 void Coordinator::loadRunningConf()
 {
     Config& conf = Config::getConfig();
-    conf.read(runningConfigurationFile);
+    QFile file(runningConfigurationFile);
+    if(file.open(QFile::ReadOnly))
+    {
+        QDataStream stream(&file);
+        conf.read(stream);
+        PlayerManager::getManager().read(stream);
+    }
 }
 
 void Coordinator::saveRunningConf()
 {
     Config& conf = Config::getConfig();
-    conf.write(runningConfigurationFile);
+    QFile file(runningConfigurationFile);
+    if(file.open(QFile::WriteOnly))
+    {
+        QDataStream stream(&file);
+        conf.write(stream);
+        PlayerManager::getManager().write(stream);
+    }
 }
 
 void Coordinator::initRunningConf()
@@ -61,4 +76,11 @@ void Coordinator::initRunningConf()
     QString rid = QString::number(0);
     runningConfigurationFile = tempDirectory + gid + "_" + rid + ".rconf";
     saveRunningConf();
+}
+
+void Coordinator::runCore(QString command)
+{
+    saveRunningConf();
+
+    loadRunningConf();
 }

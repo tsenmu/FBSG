@@ -14,7 +14,7 @@ public:
     void loadRunningConf();
     void saveRunningConf();
     void initRunningConf();
-
+    void runCore(QString command);
 signals:
     
 public slots:

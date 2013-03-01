@@ -28,7 +28,8 @@ void MainWidget::doubleClicked(const QModelIndex &ind)
     int row = ind.row();
     if(row >= 0 && row < model->rowCount())
     {
-        DecisionWidget* dec = new DecisionWidget();
+        static QHash<QString, QString> dummyRecord; // TODO remove this
+        DecisionWidget* dec = new DecisionWidget(&dummyRecord);
         dec->show();
     }
 }

@@ -48,7 +48,8 @@ void StartWidget::on_pushButton_startGame_clicked()
         markets << setOfMarkets.at(i);
     }
     config.setMarkets(markets);
-    coord.saveRunningConf();
+
+    coord.runCore("init");
 
     emit startGame();
 }
