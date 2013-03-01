@@ -11,7 +11,10 @@ public:
     void loadCurrentConf();
     void loadDefaultConf();
     void saveCurrentConf();
-    
+    void loadRunningConf();
+    void saveRunningConf();
+    void initRunningConf();
+
 signals:
     
 public slots:
@@ -23,7 +26,11 @@ private:
     static Coordinator* coord;
     QString defaultConfigurationFile;
     QString currentConfigurationFile;
+    QString runningConfigurationFile;
     QString tempDirectory;
+    QString running_gid;
+    int running_rid;
+
 };
 
 #endif // COORDINATOR_H

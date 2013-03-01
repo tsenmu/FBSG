@@ -36,6 +36,9 @@ void StartWidget::on_pushButton_startGame_clicked()
         QMessageBox::warning(this, "Warning", "At least one player need to be added.");
         return;
     }
+
+    Coordinator& coord = Coordinator::getCoordinator();
+    coord.initRunningConf();
     Config& config = Config::getConfig();
     config.setPlayers(ui->widget->items());
     QStringList setOfMarkets = config.getSetOfMarkets();
@@ -44,6 +47,8 @@ void StartWidget::on_pushButton_startGame_clicked()
     {
         markets << setOfMarkets.at(i);
     }
+    config.setMarkets(markets);
+    coord.saveRunningConf();
 
     emit startGame();
 }

@@ -2,8 +2,11 @@
 #include "ui_mainwidget.h"
 #include <QDesktopWidget>
 #include <QStandardItemModel>
+#include <QStandardItem>
 #include "config.h"
 #include "coordinator.h"
+#include <QDebug>
+#include "decisionwidget.h"
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -13,10 +16,39 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->status->set(1);
     model = new QStandardItemModel(this);
     ui->tableView->setModel(model);
-    model->setRowCount(0);
-    model->setColumnCount(1);
+    model->setColumnCount(2);
+    QStringList headerList;
+    headerList << "Player" << "Balance";
+    model->setHorizontalHeaderLabels(headerList);
+    connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
+}
+
+void MainWidget::doubleClicked(const QModelIndex &ind)
+{
+    int row = ind.row();
+    if(row >= 0 && row < model->rowCount())
+    {
+        DecisionWidget* dec = new DecisionWidget();
+        dec->show();
+    }
+}
+
+void MainWidget::ini()
+{
+    model->clear();
     Coordinator& coord = Coordinator::getCoordinator();
-    //for(int i = 0; i < )
+    Config& conf = Config::getConfig();
+    foreach(QString player, conf.getPlayers())
+    {
+        qDebug() << player;
+        QList<QStandardItem*> items;
+        QStandardItem* itemPlayer = new QStandardItem();
+        itemPlayer->setText(player);
+        QStandardItem* itemBalance = new QStandardItem();
+        itemBalance->setText("0");
+        items << itemPlayer<< itemBalance;
+        model->appendRow(items);
+    }
 }
 
 MainWidget::~MainWidget()

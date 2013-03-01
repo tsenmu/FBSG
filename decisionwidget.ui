@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
+    <width>449</width>
     <height>406</height>
    </rect>
   </property>
@@ -74,73 +74,86 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-175</y>
-        <width>364</width>
-        <height>532</height>
+        <y>-352</y>
+        <width>411</width>
+        <height>705</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
        <item>
+        <widget class="QGroupBox" name="groupBox_8">
+         <property name="title">
+          <string>Bank Loan</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_6">
+          <item row="0" column="0">
+           <widget class="QRadioButton" name="isLend">
+            <property name="text">
+             <string>Lend</string>
+            </property>
+            <property name="checked">
+             <bool>true</bool>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="1">
+           <widget class="QRadioButton" name="isPayback">
+            <property name="text">
+             <string>Pay back</string>
+            </property>
+           </widget>
+          </item>
+          <item row="0" column="2">
+           <widget class="QSpinBox" name="loan"/>
+          </item>
+         </layout>
+        </widget>
+       </item>
+       <item>
         <widget class="QGroupBox" name="groupBox">
          <property name="title">
-          <string>Human Resources</string>
+          <string>Human Resources Plan</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_3">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout">
-            <item>
-             <widget class="QLabel" name="label">
-              <property name="text">
-               <string>Number of workers (quarter)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox"/>
-            </item>
-           </layout>
+         <layout class="QGridLayout" name="gridLayout_2">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label">
+            <property name="text">
+             <string>Number of workers (quarter)</string>
+            </property>
+           </widget>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_2">
-            <item>
-             <widget class="QLabel" name="label_2">
-              <property name="text">
-               <string>Number of engineers (quarter)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_2"/>
-            </item>
-           </layout>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="numWorkers"/>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_3">
-            <item>
-             <widget class="QLabel" name="label_3">
-              <property name="text">
-               <string>Worker salary (month)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_3"/>
-            </item>
-           </layout>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_2">
+            <property name="text">
+             <string>Number of engineers (quarter)</string>
+            </property>
+           </widget>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_4">
-            <item>
-             <widget class="QLabel" name="label_4">
-              <property name="text">
-               <string>Engineer salary (month)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_4"/>
-            </item>
-           </layout>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="numEngineers"/>
+          </item>
+          <item row="2" column="0">
+           <widget class="QLabel" name="label_3">
+            <property name="text">
+             <string>Worker salary (month)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="2" column="1">
+           <widget class="QSpinBox" name="salWorkers"/>
+          </item>
+          <item row="3" column="0">
+           <widget class="QLabel" name="label_4">
+            <property name="text">
+             <string>Engineer salary (month)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="3" column="1">
+           <widget class="QSpinBox" name="salEngineers"/>
           </item>
          </layout>
         </widget>
@@ -148,76 +161,105 @@
        <item>
         <widget class="QGroupBox" name="groupBox_2">
          <property name="title">
-          <string>Production</string>
+          <string>Production Plan</string>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_4">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_6">
-            <item>
-             <widget class="QLabel" name="label_5">
-              <property name="text">
-               <string>Products to manufacture (quarter)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_5"/>
-            </item>
-           </layout>
+         <layout class="QGridLayout" name="gridLayout_4">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_5">
+            <property name="text">
+             <string>Products to manufacture (quarter)</string>
+            </property>
+           </widget>
           </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_5">
-            <item>
-             <widget class="QLabel" name="label_6">
-              <property name="text">
-               <string>Research cost (RMB)</string>
-              </property>
-             </widget>
-            </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_6"/>
-            </item>
-           </layout>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="productCount"/>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_6">
+            <property name="text">
+             <string>Research cost (RMB)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="productResearch"/>
           </item>
          </layout>
         </widget>
        </item>
        <item>
         <widget class="QGroupBox" name="groupBox_3">
-         <property name="title">
-          <string>Sales</string>
+         <property name="minimumSize">
+          <size>
+           <width>0</width>
+           <height>200</height>
+          </size>
          </property>
-         <layout class="QVBoxLayout" name="verticalLayout_5">
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <property name="title">
+          <string>Sales Plan</string>
+         </property>
+         <layout class="QGridLayout" name="gridLayout_5">
+          <item row="0" column="0">
+           <widget class="QLabel" name="label_7">
+            <property name="text">
+             <string>Sales price per product (RMB)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="0">
+           <widget class="QLabel" name="label_8">
+            <property name="text">
+             <string>Sales support cost (RMB)</string>
+            </property>
+           </widget>
+          </item>
+          <item row="1" column="1">
+           <widget class="QSpinBox" name="supportCost"/>
+          </item>
+          <item row="0" column="1">
+           <widget class="QSpinBox" name="productPrice"/>
+          </item>
+          <item row="2" column="0" colspan="2">
+           <layout class="QHBoxLayout" name="horizontalLayout">
             <item>
-             <widget class="QLabel" name="label_7">
-              <property name="text">
-               <string>Sales price per product (RMB)</string>
+             <widget class="QGroupBox" name="groupBox_6">
+              <property name="title">
+               <string>Add Sales Agent</string>
               </property>
+              <layout class="QGridLayout" name="gridLayout">
+               <item row="0" column="0">
+                <widget class="QWidget" name="agentAdd" native="true">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_7"/>
-            </item>
-           </layout>
-          </item>
-          <item>
-           <layout class="QHBoxLayout" name="horizontalLayout_8">
-            <item>
-             <widget class="QLabel" name="label_8">
-              <property name="text">
-               <string>Sales support cost (RMB)</string>
+             <widget class="QGroupBox" name="groupBox_7">
+              <property name="title">
+               <string>Remove Sales Agent</string>
               </property>
+              <layout class="QGridLayout" name="gridLayout_3">
+               <item row="0" column="0">
+                <widget class="QWidget" name="agentRemove" native="true">
+                 <property name="minimumSize">
+                  <size>
+                   <width>0</width>
+                   <height>100</height>
+                  </size>
+                 </property>
+                </widget>
+               </item>
+              </layout>
              </widget>
             </item>
-            <item>
-             <widget class="QSpinBox" name="spinBox_8"/>
-            </item>
            </layout>
-          </item>
-          <item>
-           <widget class="AgentWidget" name="widget" native="true"/>
           </item>
          </layout>
         </widget>
@@ -225,11 +267,11 @@
        <item>
         <widget class="QGroupBox" name="groupBox_4">
          <property name="title">
-          <string>Marketing</string>
+          <string>Order Market Report</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_6">
           <item>
-           <widget class="MarketingWidget" name="widget_2" native="true"/>
+           <widget class="MarketingWidget" name="marketReport" native="true"/>
           </item>
          </layout>
         </widget>
@@ -237,13 +279,13 @@
        <item>
         <widget class="QGroupBox" name="groupBox_5">
          <property name="title">
-          <string>Consultant</string>
+          <string>Hire Consultant</string>
          </property>
          <layout class="QVBoxLayout" name="verticalLayout_7">
           <item>
-           <widget class="QCheckBox" name="checkBox">
+           <widget class="QCheckBox" name="hiredConsultant">
             <property name="text">
-             <string>Hire consultant for next round</string>
+             <string>Hired consultant for next round</string>
             </property>
            </widget>
           </item>
@@ -257,12 +299,6 @@
   </layout>
  </widget>
  <customwidgets>
-  <customwidget>
-   <class>AgentWidget</class>
-   <extends>QWidget</extends>
-   <header>agentwidget.h</header>
-   <container>1</container>
-  </customwidget>
   <customwidget>
    <class>MarketingWidget</class>
    <extends>QWidget</extends>

@@ -20,7 +20,6 @@ SOURCES += main.cpp\
     config.cpp \
     listwidget.cpp \
     decisionwidget.cpp \
-    agentwidget.cpp \
     marketingwidget.cpp \
     colorstatus.cpp \
     endwidget.cpp \
@@ -36,7 +35,6 @@ HEADERS  += mainwindow.h \
     config.h \
     listwidget.h \
     decisionwidget.h \
-    agentwidget.h \
     marketingwidget.h \
     colorstatus.h \
     endwidget.h \
@@ -50,7 +48,6 @@ FORMS    += mainwindow.ui \
     menuwidget.ui \
     listwidget.ui \
     decisionwidget.ui \
-    agentwidget.ui \
     marketingwidget.ui \
     colorstatus.ui \
     endwidget.ui \

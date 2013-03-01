@@ -70,6 +70,7 @@ void MainWindow::back_emitted()
 void MainWindow::startGame_emitted()
 {
     this->switchToPage(pageMap[ui->page_main]);
+    ui->page_main->ini();
 }
 
 void MainWindow::endGame_emitted()
