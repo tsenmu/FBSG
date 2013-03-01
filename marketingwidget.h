@@ -3,9 +3,7 @@
 
 #include <QWidget>
 
-namespace Ui {
-class MarketingWidget;
-}
+class QCheckBox;
 
 class MarketingWidget : public QWidget
 {
@@ -14,9 +12,10 @@ class MarketingWidget : public QWidget
 public:
     explicit MarketingWidget(QWidget *parent = 0);
     ~MarketingWidget();
-    
+    QString getListStr();
+    QList<int> getList();
 private:
-    Ui::MarketingWidget *ui;
+    QList<QCheckBox*> list;
 };
 
 #endif // MARKETINGWIDGET_H
