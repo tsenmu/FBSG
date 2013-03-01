@@ -1,6 +1,8 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
 #include <QDesktopWidget>
+#include <QStandardItemModel>
+#include "config.h"
 #include "coordinator.h"
 
 MainWidget::MainWidget(QWidget *parent) :
@@ -9,6 +11,12 @@ MainWidget::MainWidget(QWidget *parent) :
 {
     ui->setupUi(this);
     ui->status->set(1);
+    model = new QStandardItemModel(this);
+    ui->tableView->setModel(model);
+    model->setRowCount(0);
+    model->setColumnCount(1);
+    Coordinator& coord = Coordinator::getCoordinator();
+    //for(int i = 0; i < )
 }
 
 MainWidget::~MainWidget()

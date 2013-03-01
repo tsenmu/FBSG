@@ -8,6 +8,8 @@ namespace Ui {
 class MainWidget;
 }
 
+class QStandardItemModel;
+
 class MainWidget : public QWidget
 {
     Q_OBJECT
@@ -25,6 +27,7 @@ signals:
     
 private:
     Ui::MainWidget *ui;
+    QStandardItemModel* model;
 };
 
 #endif // MAINWIDGET_H
