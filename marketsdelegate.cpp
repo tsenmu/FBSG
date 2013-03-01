@@ -47,17 +47,14 @@ void MarketsDelegate::setModelData(QWidget *editor, QAbstractItemModel *model,
     {
         QLineEdit* lineEdit = static_cast<QLineEdit*>(editor);
         QString text = lineEdit->text();
-
+        model->setData(index, text, Qt::EditRole);
     }
     else
     {
-
+        QComboBox* comboBox = static_cast<QComboBox*>(editor);
+        int ind = comboBox->currentIndex();
+        model->setData(index, ind, Qt::EditRole);
     }
-   // QSpinBox *spinBox = static_cast<QSpinBox*>(editor);
-  //  spinBox->interpretText();
-   // int value = spinBox->value();
-
-   // model->setData(index, value, Qt::EditRole);
 }
 
 void MarketsDelegate::updateEditorGeometry(QWidget *editor,
