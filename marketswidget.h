@@ -3,6 +3,8 @@
 
 #include <QWidget>
 
+class MarketsDelegate;
+
 namespace Ui {
 class MarketsWidget;
 }
@@ -17,6 +19,7 @@ public:
     
 private:
     Ui::MarketsWidget *ui;
+    MarketsDelegate* delegate;
 };
 
 #endif // MARKETSWIDGET_H
