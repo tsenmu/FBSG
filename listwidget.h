@@ -34,7 +34,7 @@ signals:
     
 private:
     bool itemExists(const QString& str);
-    bool itemIsValid(const QString& str);
+    bool itemIsValid(const QString& str, const QString& exception = "");
     QString genNewItem();
     int parseItemName(const QString& str);
     bool addItem(const QString& str);

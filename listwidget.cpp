@@ -56,7 +56,7 @@ void ListWidget::on_pushButton_edit_clicked()
                                              QLineEdit::Normal, model->item(index)->text(), &ok);
         if(ok)
         {
-            if(itemIsValid(name))
+            if(itemIsValid(name,  model->item(index)->text()))
             {
                 model->item(index)->setText(name);
             }
@@ -168,8 +168,15 @@ int ListWidget::parseItemName(const QString& str)
     return -1;
 }
 
-bool ListWidget::itemIsValid(const QString& str)
+bool ListWidget::itemIsValid(const QString& str, const QString& exception)
 {
+    if(!exception.isEmpty())
+    {
+        if(str == exception)
+        {
+            return true;
+        }
+    }
     return !str.contains(';') && !str.isEmpty() && !itemExists(str);
 }
 
