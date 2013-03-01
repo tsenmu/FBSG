@@ -12,7 +12,7 @@ MarketingWidget::MarketingWidget(QWidget *parent) :
         QCheckBox *item = new QCheckBox(market, this);
         list.append(item);
         layout->addWidget(item);
-        connect(item, SIGNAL(clicked(bool)), SLOT(change()));
+        connect(item, SIGNAL(clicked()), SLOT(change()));
     }
     setLayout(layout);
 }
@@ -21,30 +21,44 @@ MarketingWidget::~MarketingWidget()
 {
 }
 
+void MarketingWidget::highlight(const QSet<int>& set)
+{
+    int index = 0;
+    foreach(QCheckBox* item, list)
+    {
+        if(set.contains(index))
+            item->setStyleSheet("background: #F22");
+        else
+            item->setStyleSheet("");
+        index++;
+    }
+}
+
 void MarketingWidget::change()
 {
     *record = getListStr();
+    emit changed();
 }
 
 QString MarketingWidget::getListStr()
 {
     QStringList ret;
-    foreach(int item, getList())
+    foreach(int item, getSet())
     {
         ret.append(QString::number(item));
     }
     return ret.join(";;");
 }
 
-QList<int> MarketingWidget::getList()
+QSet<int> MarketingWidget::getSet()
 {
-    QList<int> ret;
+    QSet<int> ret;
     int index = 0;
     foreach(QCheckBox* item, list)
     {
         if(item->isChecked())
         {
-            ret.append(ret);
+            ret.insert(index);
         }
         index++;
     }
@@ -52,17 +66,18 @@ QList<int> MarketingWidget::getList()
 }
 
 
-void MarketingWidget::setRecord(QString* record)
+void MarketingWidget::setRecord(QString& record)
 {
-    this->record = record;
+    this->record = &record;
     foreach(QCheckBox* item, list)
     {
         item->setChecked(false);
     }
 
-    foreach(QString s, (*record).split(";;"))
-    {
-        int i = s.toInt();
-        list[i]->setChecked(true);
-    }
+    if(!record.isEmpty())
+        foreach(QString s, record.split(";;"))
+        {
+            int i = s.toInt();
+            list[i]->setChecked(true);
+        }
 }
