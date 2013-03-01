@@ -37,7 +37,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_9">
+      <widget class="QLabel" name="team">
        <property name="text">
         <string>Team</string>
        </property>
@@ -57,7 +57,7 @@
       </spacer>
      </item>
      <item>
-      <widget class="QLabel" name="label_10">
+      <widget class="QLabel" name="quarter">
        <property name="text">
         <string>Quarter</string>
        </property>
@@ -74,7 +74,7 @@
       <property name="geometry">
        <rect>
         <x>0</x>
-        <y>-352</y>
+        <y>-214</y>
         <width>411</width>
         <height>705</height>
        </rect>
@@ -98,13 +98,20 @@
           </item>
           <item row="0" column="1">
            <widget class="QRadioButton" name="isPayback">
+            <property name="whatsThis">
+             <string/>
+            </property>
             <property name="text">
              <string>Pay back</string>
             </property>
            </widget>
           </item>
           <item row="0" column="2">
-           <widget class="QSpinBox" name="loan"/>
+           <widget class="QSpinBox" name="loan">
+            <property name="whatsThis">
+             <string>loan</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -123,7 +130,11 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QSpinBox" name="numWorkers"/>
+           <widget class="QSpinBox" name="numWorkers">
+            <property name="whatsThis">
+             <string>workersOrdered</string>
+            </property>
+           </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_2">
@@ -133,7 +144,11 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QSpinBox" name="numEngineers"/>
+           <widget class="QSpinBox" name="numEngineers">
+            <property name="whatsThis">
+             <string>engineersOrdered</string>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0">
            <widget class="QLabel" name="label_3">
@@ -143,7 +158,11 @@
            </widget>
           </item>
           <item row="2" column="1">
-           <widget class="QSpinBox" name="salWorkers"/>
+           <widget class="QSpinBox" name="salWorkers">
+            <property name="whatsThis">
+             <string>workersSalary</string>
+            </property>
+           </widget>
           </item>
           <item row="3" column="0">
            <widget class="QLabel" name="label_4">
@@ -153,7 +172,11 @@
            </widget>
           </item>
           <item row="3" column="1">
-           <widget class="QSpinBox" name="salEngineers"/>
+           <widget class="QSpinBox" name="salEngineers">
+            <property name="whatsThis">
+             <string>engineersSalary</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -172,7 +195,11 @@
            </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QSpinBox" name="productCount"/>
+           <widget class="QSpinBox" name="productCount">
+            <property name="whatsThis">
+             <string>productsOrdered</string>
+            </property>
+           </widget>
           </item>
           <item row="1" column="0">
            <widget class="QLabel" name="label_6">
@@ -182,7 +209,11 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QSpinBox" name="productResearch"/>
+           <widget class="QSpinBox" name="productResearch">
+            <property name="whatsThis">
+             <string>qualityCost</string>
+            </property>
+           </widget>
           </item>
          </layout>
         </widget>
@@ -214,10 +245,18 @@
            </widget>
           </item>
           <item row="1" column="1">
-           <widget class="QSpinBox" name="supportCost"/>
+           <widget class="QSpinBox" name="supportCost">
+            <property name="whatsThis">
+             <string>salesSupport</string>
+            </property>
+           </widget>
           </item>
           <item row="0" column="1">
-           <widget class="QSpinBox" name="productPrice"/>
+           <widget class="QSpinBox" name="productPrice">
+            <property name="whatsThis">
+             <string>price</string>
+            </property>
+           </widget>
           </item>
           <item row="2" column="0" colspan="2">
            <layout class="QHBoxLayout" name="horizontalLayout">
@@ -228,7 +267,7 @@
               </property>
               <layout class="QGridLayout" name="gridLayout">
                <item row="0" column="0">
-                <widget class="QWidget" name="agentAdd" native="true">
+                <widget class="MarketingWidget" name="agentAdd" native="true">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>
@@ -247,7 +286,7 @@
               </property>
               <layout class="QGridLayout" name="gridLayout_3">
                <item row="0" column="0">
-                <widget class="QWidget" name="agentRemove" native="true">
+                <widget class="MarketingWidget" name="agentRemove" native="true">
                  <property name="minimumSize">
                   <size>
                    <width>0</width>

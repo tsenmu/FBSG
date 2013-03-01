@@ -74,6 +74,14 @@ QString Config::getMarket(int index) {
     return markets[index];
 }
 
+QStringList Config::getMarkets()
+{
+    if(markets.isEmpty()) {
+        markets = get("markets").split(";;");
+    }
+    return markets;
+}
+
 QStringList Config::getPlayers() {
     return get("players").split(";;");
 }
@@ -97,6 +105,8 @@ void Config::setSetOfMarkets(const QStringList list)
 void Config::genDefault()
 {
     hash["players"] = "p1;;p2";
+    hash["markets"] = "Hangzhou;;Wuhan";
+    hash["Set of markets"] = "Hangzhou;;Wuhan;;Nanjing;;Shenyang;;Chengdu;;Xi'an";
     hash["Month in a quarter"] = QString::number(3);
     hash["Days in a month"] = QString::number(30);
     hash["Working hours in a month"] = QString::number(168);

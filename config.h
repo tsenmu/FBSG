@@ -18,6 +18,7 @@ public:
     void genDefault();
     QString get(QString key);
     QString getMarket(int index);
+    QStringList getMarkets();
     QStringList getSetOfMarkets();
     void setSetOfMarkets(const QStringList list);
     QStringList getPlayers();
