@@ -12,6 +12,7 @@ MarketingWidget::MarketingWidget(QWidget *parent) :
         QCheckBox *item = new QCheckBox(market, this);
         list.append(item);
         layout->addWidget(item);
+        connect(item, SIGNAL(clicked(bool)), SLOT(change()));
     }
     setLayout(layout);
 }
@@ -20,6 +21,10 @@ MarketingWidget::~MarketingWidget()
 {
 }
 
+void MarketingWidget::change()
+{
+    *record = getListStr();
+}
 
 QString MarketingWidget::getListStr()
 {
@@ -35,7 +40,8 @@ QList<int> MarketingWidget::getList()
 {
     QList<int> ret;
     int index = 0;
-    foreach(QCheckBox* item, list) {
+    foreach(QCheckBox* item, list)
+    {
         if(item->isChecked())
         {
             ret.append(ret);
@@ -43,4 +49,20 @@ QList<int> MarketingWidget::getList()
         index++;
     }
     return ret;
+}
+
+
+void MarketingWidget::setRecord(QString* record)
+{
+    this->record = record;
+    foreach(QCheckBox* item, list)
+    {
+        item->setChecked(false);
+    }
+
+    foreach(QString s, (*record).split(";;"))
+    {
+        int i = s.toInt();
+        list[i]->setChecked(true);
+    }
 }

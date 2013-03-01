@@ -12,10 +12,14 @@ class MarketingWidget : public QWidget
 public:
     explicit MarketingWidget(QWidget *parent = 0);
     ~MarketingWidget();
+    void setRecord(QString *record);
     QString getListStr();
     QList<int> getList();
+private slots:
+    void change();
 private:
     QList<QCheckBox*> list;
+    QString* record;
 };
 
 #endif // MARKETINGWIDGET_H
