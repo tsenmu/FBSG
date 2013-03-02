@@ -16,10 +16,7 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->status->set(1);
     model = new QStandardItemModel(this);
     ui->tableView->setModel(model);
-    model->setColumnCount(2);
-    QStringList headerList;
-    headerList << "Player" << "Balance";
-    model->setHorizontalHeaderLabels(headerList);
+    ini();
     connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
 }
 
@@ -37,6 +34,10 @@ void MainWidget::doubleClicked(const QModelIndex &ind)
 void MainWidget::ini()
 {
     model->clear();
+    model->setColumnCount(2);
+    QStringList headerList;
+    headerList << "Player" << "Balance";
+    model->setHorizontalHeaderLabels(headerList);
     Coordinator& coord = Coordinator::getCoordinator();
     Config& conf = Config::getConfig();
     foreach(QString player, conf.getPlayers())

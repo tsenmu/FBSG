@@ -66,7 +66,7 @@
    <item>
     <layout class="QHBoxLayout" name="horizontalLayout_2">
      <item>
-      <widget class="QPushButton" name="pushButton">
+      <widget class="QPushButton" name="pushButton_markets">
        <property name="text">
         <string>Markets &gt;&gt;</string>
        </property>
@@ -95,7 +95,7 @@
     </layout>
    </item>
    <item>
-    <widget class="MarketsWidget" name="widget_2" native="true"/>
+    <widget class="MarketsWidget" name="widget_markets" native="true"/>
    </item>
   </layout>
  </widget>

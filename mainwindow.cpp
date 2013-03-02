@@ -20,10 +20,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_action_newGame_triggered()
 {
-    if(pageMap[ui->page_start] != ui->stackedWidget->currentIndex())
-    {
-        ui->stackedWidget->setCurrentWidget(ui->page_start);
-    }
+    ui->page_start->ini();
+    switchToPage(pageMap[ui->page_start]);
 }
 
 void MainWindow::on_action_close_triggered()
@@ -95,11 +93,13 @@ void MainWindow::initStackedWidget()
     connect(ui->page_start, SIGNAL(backToMenu()), this, SLOT(backToMenu_emitted()));
     connect(ui->page_main, SIGNAL(backToMenu()), this, SLOT(backToMenu_emitted()));
     connect(ui->page_end, SIGNAL(backToMenu()), this, SLOT(backToMenu_emitted()));
+
 }
 
 void MainWindow::backToMenu_emitted()
 {
     this->switchToPage(pageMap[ui->page_menu]);
 }
+
 
 

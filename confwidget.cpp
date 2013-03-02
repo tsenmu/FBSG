@@ -172,7 +172,6 @@ bool ConfWidget::changed()
     Config& conf = Config::getConfig();
     bool marketEq = true;
     QStringList market1 = conf.getSetOfMarkets();
-    market1.sort();
     QStringList market2 = ui->widget_setOfMarkets->items();
     if(market1.size() != market2.size())
     {
