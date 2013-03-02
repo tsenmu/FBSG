@@ -14,12 +14,15 @@ class DecisionWidget : public QWidget
     Q_OBJECT
     
 public:
-    explicit DecisionWidget(QHash<QString, QString> *record, int round = 1, QWidget *parent = 0);
+    explicit DecisionWidget(QHash<QString, QString> *record, QWidget *parent = 0);
     ~DecisionWidget();
     QHash<QString, QString>& getRecord();
-    
-public slots:
+    DecisionWidget& setPlayerName(QString);
+    DecisionWidget& setRoundNumber(int);
+private slots:
     void spinBoxChanged(int);
+    void agentsChanged();
+    void isLoanChanged();
 private slots:
     void on_hiredConsultant_clicked(bool checked);
 

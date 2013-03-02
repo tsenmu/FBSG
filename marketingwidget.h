@@ -13,9 +13,12 @@ class MarketingWidget : public QWidget
 public:
     explicit MarketingWidget(QWidget *parent = 0);
     ~MarketingWidget();
-    void setRecord(QString *record);
+    void setRecord(QString& record);
+    void highlight(const QSet<int>&);
     QString getListStr();
-    QList<int> getList();
+    QSet<int> getSet();
+signals:
+    void changed();
 private slots:
     void change();
 private:
