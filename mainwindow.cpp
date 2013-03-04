@@ -50,7 +50,7 @@ void MainWindow::switchToPage(int index)
     previousIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(index);
 
-    if(index == pageMap[ui->page_main])
+    if(index != pageMap[ui->page_menu])
     {
         ui->action_configuration->setEnabled(false);
     }
@@ -67,8 +67,8 @@ void MainWindow::back_emitted()
 
 void MainWindow::startGame_emitted()
 {
-    this->switchToPage(pageMap[ui->page_main]);
     ui->page_main->ini();
+    this->switchToPage(pageMap[ui->page_main]);
 }
 
 void MainWindow::endGame_emitted()
@@ -101,5 +101,8 @@ void MainWindow::backToMenu_emitted()
     this->switchToPage(pageMap[ui->page_menu]);
 }
 
-
+void MainWindow::on_pushButton_configuration_clicked()
+{
+    this->on_action_configuration_triggered();
+}
 

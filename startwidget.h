@@ -24,7 +24,6 @@ signals:
 public slots:
     void on_pushButton_backToMenu_clicked();
     void on_pushButton_startGame_clicked();
-    void on_pushButton_markets_clicked();
     void reachLimit_emitted();
     void itemChanged_emitted();
     

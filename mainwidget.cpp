@@ -17,6 +17,9 @@ MainWidget::MainWidget(QWidget *parent) :
     model = new QStandardItemModel(this);
     ui->tableView->setModel(model);
     ini();
+    QHeaderView *HorizonHdr = ui->tableView->horizontalHeader();
+    HorizonHdr->setResizeMode(QHeaderView::Stretch);
+    ui->pushButton_runNextRound->setEnabled(false);
     connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
 }
 
@@ -38,11 +41,9 @@ void MainWidget::ini()
     QStringList headerList;
     headerList << "Player" << "Balance";
     model->setHorizontalHeaderLabels(headerList);
-    Coordinator& coord = Coordinator::getCoordinator();
     Config& conf = Config::getConfig();
     foreach(QString player, conf.getPlayers())
     {
-        qDebug() << player;
         QList<QStandardItem*> items;
         QStandardItem* itemPlayer = new QStandardItem();
         itemPlayer->setText(player);

@@ -5,6 +5,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QDebug>
+#include "marketsdialog.h"
 #include "coordinator.h"
 #include "config.h"
 
@@ -13,13 +14,8 @@ StartWidget::StartWidget(QWidget *parent) :
     ui(new Ui::StartWidget)
 {
     ui->setupUi(this);
-    Coordinator::getCoordinator();
-    Config& conf = Config::getConfig();
-    int size = conf.getSetOfMarkets().size();
-    ui->widget->setVar("player", "Player", "players", "Players", size);
-    ui->status->set(0);
-    ui->widget->setLabelDynamic(QString("0/%1").arg(size));
-    ui->widget_markets->setVisible(false);
+
+
     connect(ui->widget, SIGNAL(reachLimit()), this, SLOT(reachLimit_emitted()));
     connect(ui->widget, SIGNAL(itemChanged()), this, SLOT(itemChanged_emitted()));
 }
@@ -36,14 +32,19 @@ void StartWidget::itemChanged_emitted()
     Config& conf = Config::getConfig();
     conf.setPlayers(ui->widget->items());
     coord.saveRunningConf();
-    ui->widget_markets->ini();
 }
 
 void StartWidget::ini()
 {
     Coordinator& coord = Coordinator::getCoordinator();
     coord.initRunningConf();
-    Config& config = Config::getConfig();
+    Config& conf = Config::getConfig();
+    conf.setPlayers(QStringList());
+    int size = conf.getSetOfMarkets().size();
+    ui->widget->on_pushButton_clear_clicked();
+    ui->widget->setVar("player", "Player", "players", "Players", size);
+    ui->status->set(0);
+    ui->widget->setLabelDynamic(QString("0/%1").arg(size));
 }
 
 
@@ -54,6 +55,13 @@ void StartWidget::on_pushButton_startGame_clicked()
         QMessageBox::warning(this, "Warning", "At least one player need to be added.");
         return;
     }
+    MarketsDialog dialog;
+    int ret = dialog.exec();
+    if(ret != QDialog::Accepted)
+    {
+        return;
+    }
+
     Coordinator& coord = Coordinator::getCoordinator();
     coord.runCore("init");
     emit startGame();
@@ -68,11 +76,4 @@ void StartWidget::reachLimit_emitted()
 {
     QMessageBox::warning(this, "Warning", "You have reached the limit of player number. "
                          "Add markets in configuration if more players are needed.");
-}
-
-void StartWidget::on_pushButton_markets_clicked()
-{
-    ui->widget_markets->ini();
-    ui->widget_markets->setVisible(!ui->widget_markets->isVisible());
-    ui->pushButton_markets->setText(ui->widget_markets->isVisible() ? "Markets <<" : "Markets >>");
 }

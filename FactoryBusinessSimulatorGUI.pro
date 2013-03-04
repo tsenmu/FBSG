@@ -23,10 +23,9 @@ SOURCES += main.cpp\
     marketingwidget.cpp \
     colorstatus.cpp \
     endwidget.cpp \
-    marketswidget.cpp \
-    marketsdelegate.cpp \
     flowlayout.cpp \
-    playermanager.cpp
+    playermanager.cpp \
+    marketsdialog.cpp
 
 HEADERS  += mainwindow.h \
     startwidget.h \
@@ -40,11 +39,10 @@ HEADERS  += mainwindow.h \
     marketingwidget.h \
     colorstatus.h \
     endwidget.h \
-    marketswidget.h \
-    marketsdelegate.h \
     flowlayout.h \
     playermanager.h \
-    player.h
+    player.h \
+    marketsdialog.h
 
 FORMS    += mainwindow.ui \
     startwidget.ui \
@@ -55,7 +53,7 @@ FORMS    += mainwindow.ui \
     decisionwidget.ui \
     colorstatus.ui \
     endwidget.ui \
-    marketswidget.ui
+    marketsdialog.ui
 
 RESOURCES += \
     image.qrc
