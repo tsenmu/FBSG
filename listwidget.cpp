@@ -3,6 +3,7 @@
 #include <QStandardItemModel>
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QDebug>
 
 ListWidget::ListWidget(QWidget *parent) :
     QWidget(parent),
@@ -41,8 +42,8 @@ void ListWidget::on_pushButton_delete_clicked()
         {
             this->setLabelDynamic(QString("%1/%2").arg(model->rowCount()).arg(limit));
         }
-
     }
+    emit itemChanged();
 }
 
 void ListWidget::on_pushButton_edit_clicked()
@@ -66,6 +67,7 @@ void ListWidget::on_pushButton_edit_clicked()
             }
         }
     }
+    emit itemChanged();
 }
 
 void ListWidget::on_pushButton_batchAdd_clicked()
@@ -96,12 +98,13 @@ void ListWidget::on_pushButton_batchAdd_clicked()
             }
         }
     }
+
 }
 
 void ListWidget::on_pushButton_clear_clicked()
 {
     model->clear();
-
+    emit itemChanged();
 }
 
 void ListWidget::on_pushButton_add_clicked()
@@ -194,7 +197,7 @@ bool ListWidget::addItem(const QString& str)
     {
         setLabelDynamic(QString("%1/%2").arg(model->rowCount()).arg(limit));
     }
-    model->sort(0);
+    emit itemChanged();
     return true;
 }
 
@@ -229,7 +232,7 @@ void ListWidget::setItems(const QStringList& list)
     {
         this->addItem(str);
     }
-    model->sort(0);
+
 }
 
 

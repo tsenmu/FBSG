@@ -23,10 +23,14 @@ public slots:
     void on_action_loadGame_triggered();
     void on_action_about_triggered();
     void on_action_configuration_triggered();
+    void on_pushButton_configuration_clicked();
     void back_emitted();
     void startGame_emitted();
     void endGame_emitted();
     void backToMenu_emitted();
+protected:
+    void showEvent(QShowEvent * event );
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::MainWindow *ui;

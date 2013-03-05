@@ -22,6 +22,9 @@ public:
 public slots:
     void on_pushButton_endGame_clicked();
     void on_pushButton_backToMenu_clicked();
+    void on_pushButton_runNextRound_clicked();
+    void on_pushButton_restorePreviousRound_clicked();
+    void updateUI();
     void ini();
     void doubleClicked(const QModelIndex& ind);
 signals:

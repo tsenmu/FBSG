@@ -5,6 +5,7 @@
 
 class QCheckBox;
 
+
 class MarketingWidget : public QWidget
 {
     Q_OBJECT
@@ -23,6 +24,7 @@ private slots:
 private:
     QList<QCheckBox*> list;
     QString* record;
+
 };
 
 #endif // MARKETINGWIDGET_H

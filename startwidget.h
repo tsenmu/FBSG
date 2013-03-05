@@ -15,6 +15,7 @@ class StartWidget : public QWidget
 public:
     explicit StartWidget(QWidget *parent = 0);
     ~StartWidget();
+    void ini();
 
 signals:
     void startGame();
@@ -24,6 +25,7 @@ public slots:
     void on_pushButton_backToMenu_clicked();
     void on_pushButton_startGame_clicked();
     void reachLimit_emitted();
+    void itemChanged_emitted();
     
 private:
     Ui::StartWidget *ui;

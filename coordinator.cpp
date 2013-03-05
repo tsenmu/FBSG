@@ -1,9 +1,11 @@
 #include "coordinator.h"
 #include "config.h"
+#include "playermanager.h"
 #include <QDateTime>
 #include <QFile>
 #include <QDataStream>
-#include "playermanager.h"
+#include <QDir>
+#include <QProcess>
 
 Coordinator* Coordinator::coord = 0;
 
@@ -15,7 +17,6 @@ Coordinator::Coordinator(const QString& defaultConf,
     defaultConfigurationFile = defaultConf;
     currentConfigurationFile = currentConf;
     tempDirectory = tempDir;
-    loadCurrentConf();
 }
 
 Coordinator& Coordinator::getCoordinator()
@@ -48,12 +49,25 @@ void Coordinator::loadRunningConf()
 {
     Config& conf = Config::getConfig();
     QFile file(runningConfigurationFile);
+    QRegExp number("[0-9]+");
+    QStringList list;
+    number.indexIn(runningConfigurationFile);
+    list << number.cap();
+    number.indexIn(runningConfigurationFile);
+    list << number.cap();
+    running_gid = list.at(0);
+    running_rid = list.at(1);
     if(file.open(QFile::ReadOnly))
     {
+        conf.clear();
         QDataStream stream(&file);
         conf.read(stream);
         PlayerManager::getManager().read(stream);
     }
+//    else
+//    {
+//        qDebug() << "Error reading file";
+//    }
 }
 
 void Coordinator::saveRunningConf()
@@ -71,16 +85,102 @@ void Coordinator::saveRunningConf()
 void Coordinator::initRunningConf()
 {
     loadCurrentConf();
-    Config& conf = Config::getConfig();
-    QString gid = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
-    QString rid = QString::number(0);
-    runningConfigurationFile = tempDirectory + gid + "_" + rid + ".rconf";
+    running_gid = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
+    running_rid = QString::number(0);
+    runningConfigurationFile = tempDirectory + running_gid + "_" + running_rid + ".rconf";
     saveRunningConf();
 }
 
 void Coordinator::runCore(QString command)
 {
     saveRunningConf();
-
+    static const QString program =
+#ifdef WINDOWS
+    "core.exe";
+#else
+    "core";
+#endif
+    QStringList arg = command.split(" ");
+    arg.prepend(runningConfigurationFile);
+    QProcess proc;
+    proc.start(program, arg);
     loadRunningConf();
+}
+
+void Coordinator::nextRunningConf()
+{
+    loadRunningConf();
+    running_rid = QString::number(running_rid.toInt() + 1);
+    runningConfigurationFile = tempDirectory + running_gid + "_" + running_rid + ".rconf";
+    saveRunningConf();
+}
+
+void Coordinator::previousRunningConf()
+{
+    int rid = running_rid.toInt();
+    if(rid == 1) return;
+    running_rid = QString::number(rid - 1);
+    runningConfigurationFile = tempDirectory + running_gid + "_" + running_rid + ".rconf";
+    loadRunningConf();
+}
+
+QStringList Coordinator::runningRounds() const
+{
+    QStringList ret;
+    QDir dir(tempDirectory);
+    QFileInfoList list = dir.entryInfoList();
+    for (int i = 0; i < list.size(); ++i)
+    {
+        QFileInfo fileInfo = list.at(i);
+        if(fileInfo.fileName().startsWith(running_gid) &&
+                fileInfo.fileName().endsWith(".rconf"))
+        {
+            ret << fileInfo.fileName();
+        }
+    }
+    return ret;
+}
+
+void Coordinator::clearTempDirectory()
+{
+    QDir dir(tempDirectory);
+    QStringList list = dir.entryList();
+    foreach(QString str, list)
+    {
+        if(str.endsWith(".rconf"))
+        {
+            dir.remove(str);
+        }
+    }
+}
+
+bool Coordinator::hasLostRunningConf()
+{
+    bool ret = false;
+    QDir dir(tempDirectory);
+    QFileInfoList list = dir.entryInfoList();
+    for (int i = 0; i < list.size(); ++i)
+    {
+        QFileInfo fileInfo = list.at(i);
+        if(fileInfo.fileName().endsWith(".rconf"))
+        {
+            ret = true;
+            break;
+        }
+    }
+    return ret;
+}
+
+void Coordinator::loadLostRunningConf()
+{
+
+    QDir dir(tempDirectory);
+    QStringList list = dir.entryList();
+    runningConfigurationFile = "./temp/" + list.last();
+    loadRunningConf();
+}
+
+int Coordinator::runningRound()
+{
+    return running_rid.toInt() + 1;
 }

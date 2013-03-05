@@ -10,6 +10,7 @@ class Config
 public:
     static Config& getConfig();
     static void test();
+    void clear();
     void read(QDataStream& in);
     void read(QString filename);
     void write(QDataStream& out);
@@ -25,7 +26,6 @@ public:
     void setPlayers(const QStringList& list);
     void setMarkets(const QStringList& list);
 private:
-    QStringList markets;
     explicit Config();
     static Config config;
     QHash<QString,QString> hash;

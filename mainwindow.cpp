@@ -1,7 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "coordinator.h"
-
+#include "config.h"
+#include <QMessageBox>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -20,10 +21,8 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_action_newGame_triggered()
 {
-    if(pageMap[ui->page_start] != ui->stackedWidget->currentIndex())
-    {
-        ui->stackedWidget->setCurrentWidget(ui->page_start);
-    }
+    ui->page_start->ini();
+    switchToPage(pageMap[ui->page_start]);
 }
 
 void MainWindow::on_action_close_triggered()
@@ -52,7 +51,7 @@ void MainWindow::switchToPage(int index)
     previousIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(index);
 
-    if(index == pageMap[ui->page_main])
+    if(index != pageMap[ui->page_menu])
     {
         ui->action_configuration->setEnabled(false);
     }
@@ -69,8 +68,8 @@ void MainWindow::back_emitted()
 
 void MainWindow::startGame_emitted()
 {
-    this->switchToPage(pageMap[ui->page_main]);
     ui->page_main->ini();
+    this->switchToPage(pageMap[ui->page_main]);
 }
 
 void MainWindow::endGame_emitted()
@@ -102,4 +101,31 @@ void MainWindow::backToMenu_emitted()
     this->switchToPage(pageMap[ui->page_menu]);
 }
 
+void MainWindow::on_pushButton_configuration_clicked()
+{
+    this->on_action_configuration_triggered();
+}
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    Coordinator& coord = Coordinator::getCoordinator();
+    coord.saveRunningConf();
+//    coord.clearTempDirectory();
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    Coordinator& coord = Coordinator::getCoordinator();
+    if(coord.hasLostRunningConf())
+    {
+        int ret = QMessageBox::warning(this, "Warning", "Game record found. Do you want to restore it?", QMessageBox::Yes, QMessageBox::No);
+        if(ret == QMessageBox::Yes)
+        {
+            coord.loadLostRunningConf();
+            ui->page_main->ini();
+            switchToPage(this->pageMap[ui->page_main]);
+        }
+    }
+    QMainWindow::showEvent(event);
+}

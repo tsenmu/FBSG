@@ -31,7 +31,7 @@ public slots:
     void on_pushButton_edit_clicked();
 signals:
     void reachLimit();
-    
+    void itemChanged();
 private:
     bool itemExists(const QString& str);
     bool itemIsValid(const QString& str, const QString& exception = "");
