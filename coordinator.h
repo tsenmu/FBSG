@@ -11,10 +11,20 @@ public:
     void loadCurrentConf();
     void loadDefaultConf();
     void saveCurrentConf();
+
+    bool hasLostRunningConf();
+    void loadLostRunningConf();
     void loadRunningConf();
     void saveRunningConf();
     void initRunningConf();
+    void nextRunningConf();
+    void previousRunningConf();
+    int runningRound();
+
+    void clearTempDirectory();
+    QStringList runningRounds() const;
     void runCore(QString command);
+
 signals:
     
 public slots:
@@ -29,7 +39,7 @@ private:
     QString runningConfigurationFile;
     QString tempDirectory;
     QString running_gid;
-    int running_rid;
+    QString running_rid;
 
 };
 

@@ -28,6 +28,9 @@ public slots:
     void startGame_emitted();
     void endGame_emitted();
     void backToMenu_emitted();
+protected:
+    void showEvent(QShowEvent * event );
+    void closeEvent(QCloseEvent *event);
 
 private:
     Ui::MainWindow *ui;

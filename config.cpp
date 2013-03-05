@@ -18,10 +18,14 @@ Config &Config::getConfig()
     return config;
 }
 
+void Config::clear()
+{
+    hash.clear();
+}
+
 void Config::read(QDataStream& in)
 {
     in >> hash;
-    markets.clear();
 }
 
 void Config::read(QString filename)
@@ -59,26 +63,18 @@ QString Config::get(QString key)
 
 void Config::test()
 {
-    Config conf = Config::getConfig();
 
-    conf.set("a", "ss");
-    conf.set("b", "ssssss");
-    conf.write("a.conf");
-    conf.read("a.conf");
 }
 
-QString Config::getMarket(int index) {
-    if(markets.isEmpty()) {
-        markets = get("markets").split(";;");
-    }
+QString Config::getMarket(int index)
+{
+    QStringList markets = getMarkets();
     return markets[index];
 }
 
 QStringList Config::getMarkets()
 {
-    if(markets.isEmpty()) {
-        markets = get("markets").split(";;");
-    }
+    QStringList markets = get("markets").split(";;");
     return markets;
 }
 
@@ -104,8 +100,6 @@ void Config::setSetOfMarkets(const QStringList list)
 
 void Config::genDefault()
 {
-    hash["players"] = "p1;;p2";
-    hash["markets"] = "Hangzhou;;Wuhan";
     hash["Set of markets"] = "Hangzhou;;Wuhan;;Nanjing;;Shenyang;;Chengdu;;Xi'an";
     hash["Month in a quarter"] = QString::number(3);
     hash["Days in a month"] = QString::number(30);

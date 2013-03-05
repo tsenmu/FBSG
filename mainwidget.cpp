@@ -16,10 +16,8 @@ MainWidget::MainWidget(QWidget *parent) :
     ui->status->set(1);
     model = new QStandardItemModel(this);
     ui->tableView->setModel(model);
-    ini();
     QHeaderView *HorizonHdr = ui->tableView->horizontalHeader();
     HorizonHdr->setResizeMode(QHeaderView::Stretch);
-    ui->pushButton_runNextRound->setEnabled(false);
     connect(ui->tableView, SIGNAL(doubleClicked(QModelIndex)), this, SLOT(doubleClicked(QModelIndex)));
 }
 
@@ -34,14 +32,41 @@ void MainWidget::doubleClicked(const QModelIndex &ind)
     }
 }
 
+void MainWidget::on_pushButton_runNextRound_clicked()
+{
+    Coordinator& coord = Coordinator::getCoordinator();
+    coord.nextRunningConf();
+    updateUI();
+}
+
+void MainWidget::on_pushButton_restorePreviousRound_clicked()
+{
+    Coordinator& coord = Coordinator::getCoordinator();
+    coord.previousRunningConf();
+    updateUI();
+
+}
+
+void MainWidget::updateUI()
+{
+    Coordinator& coord = Coordinator::getCoordinator();
+    coord.loadRunningConf();
+    ui->label_round->setText(QString::number(coord.runningRound()));
+    ui->pushButton_restorePreviousRound->setEnabled(coord.runningRound() != 1);
+    ui->pushButton_saveReport->setEnabled(coord.runningRound() != 1);
+}
+
 void MainWidget::ini()
 {
+    Coordinator& coord = Coordinator::getCoordinator();
+    coord.loadRunningConf();
+    Config& conf = Config::getConfig();
+    /* Init the player list.*/
     model->clear();
     model->setColumnCount(2);
     QStringList headerList;
     headerList << "Player" << "Balance";
     model->setHorizontalHeaderLabels(headerList);
-    Config& conf = Config::getConfig();
     foreach(QString player, conf.getPlayers())
     {
         QList<QStandardItem*> items;
@@ -52,6 +77,7 @@ void MainWidget::ini()
         items << itemPlayer<< itemBalance;
         model->appendRow(items);
     }
+    updateUI();
 }
 
 MainWidget::~MainWidget()

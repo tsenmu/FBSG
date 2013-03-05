@@ -1,7 +1,8 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "coordinator.h"
-
+#include "config.h"
+#include <QMessageBox>
 #include <QDebug>
 
 MainWindow::MainWindow(QWidget *parent) :
@@ -93,7 +94,6 @@ void MainWindow::initStackedWidget()
     connect(ui->page_start, SIGNAL(backToMenu()), this, SLOT(backToMenu_emitted()));
     connect(ui->page_main, SIGNAL(backToMenu()), this, SLOT(backToMenu_emitted()));
     connect(ui->page_end, SIGNAL(backToMenu()), this, SLOT(backToMenu_emitted()));
-
 }
 
 void MainWindow::backToMenu_emitted()
@@ -106,3 +106,26 @@ void MainWindow::on_pushButton_configuration_clicked()
     this->on_action_configuration_triggered();
 }
 
+void MainWindow::closeEvent(QCloseEvent *event)
+{
+    Coordinator& coord = Coordinator::getCoordinator();
+    coord.saveRunningConf();
+    coord.clearTempDirectory();
+    QMainWindow::closeEvent(event);
+}
+
+void MainWindow::showEvent(QShowEvent *event)
+{
+    Coordinator& coord = Coordinator::getCoordinator();
+    if(coord.hasLostRunningConf())
+    {
+        int ret = QMessageBox::warning(this, "Warning", "Game record found. Do you want to restore it?", QMessageBox::Yes, QMessageBox::No);
+        if(ret == QMessageBox::Yes)
+        {
+            coord.loadLostRunningConf();
+            ui->page_main->ini();
+            switchToPage(this->pageMap[ui->page_main]);
+        }
+    }
+    QMainWindow::showEvent(event);
+}

@@ -14,7 +14,7 @@ StartWidget::StartWidget(QWidget *parent) :
     ui(new Ui::StartWidget)
 {
     ui->setupUi(this);
-
+    ui->status->set(0);
 
     connect(ui->widget, SIGNAL(reachLimit()), this, SLOT(reachLimit_emitted()));
     connect(ui->widget, SIGNAL(itemChanged()), this, SLOT(itemChanged_emitted()));
@@ -36,14 +36,20 @@ void StartWidget::itemChanged_emitted()
 
 void StartWidget::ini()
 {
+    /* Create a brand new running config file based on timestamp now.*/
     Coordinator& coord = Coordinator::getCoordinator();
     coord.initRunningConf();
+
+    /* Empty player and market list. */
     Config& conf = Config::getConfig();
     conf.setPlayers(QStringList());
+    conf.setMarkets(QStringList());
+    coord.saveRunningConf();
+
+    /* Ui update. */
     int size = conf.getSetOfMarkets().size();
     ui->widget->on_pushButton_clear_clicked();
     ui->widget->setVar("player", "Player", "players", "Players", size);
-    ui->status->set(0);
     ui->widget->setLabelDynamic(QString("0/%1").arg(size));
 }
 
@@ -63,6 +69,7 @@ void StartWidget::on_pushButton_startGame_clicked()
     }
 
     Coordinator& coord = Coordinator::getCoordinator();
+    coord.saveRunningConf();
     coord.runCore("init");
     emit startGame();
 }
