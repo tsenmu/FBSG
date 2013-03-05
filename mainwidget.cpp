@@ -1,12 +1,13 @@
 #include "mainwidget.h"
 #include "ui_mainwidget.h"
+#include "playermanager.h"
+#include "config.h"
+#include "coordinator.h"
+#include "decisionwidget.h"
 #include <QDesktopWidget>
 #include <QStandardItemModel>
 #include <QStandardItem>
-#include "config.h"
-#include "coordinator.h"
 #include <QDebug>
-#include "decisionwidget.h"
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -26,8 +27,7 @@ void MainWidget::doubleClicked(const QModelIndex &ind)
     int row = ind.row();
     if(row >= 0 && row < model->rowCount())
     {
-        static QHash<QString, QString> dummyRecord; // TODO remove this
-        DecisionWidget* dec = new DecisionWidget(&dummyRecord);
+        DecisionWidget* dec = new DecisionWidget(&PlayerManager::getManager().getPlayer(model->data(model->index(row, 0)).toString()).record);
         dec->show();
     }
 }
@@ -36,6 +36,7 @@ void MainWidget::on_pushButton_runNextRound_clicked()
 {
     Coordinator& coord = Coordinator::getCoordinator();
     coord.nextRunningConf();
+    coord.runCore("start loan hire produce sales end report");
     updateUI();
 }
 
@@ -54,6 +55,13 @@ void MainWidget::updateUI()
     ui->label_round->setText(QString::number(coord.runningRound()));
     ui->pushButton_restorePreviousRound->setEnabled(coord.runningRound() != 1);
     ui->pushButton_saveReport->setEnabled(coord.runningRound() != 1);
+    PlayerManager &pm = PlayerManager::getManager();
+    for(int i = 0, c = model->rowCount(); i < c; i++)
+    {
+        QString name = model->data(model->index(i, 0)).toString();
+        Player& p = pm.getPlayer(name);
+        model->setData(model->index(i, 1), p.cash - p.loan);
+    }
 }
 
 void MainWidget::ini()

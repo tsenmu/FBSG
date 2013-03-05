@@ -110,7 +110,7 @@ void MainWindow::closeEvent(QCloseEvent *event)
 {
     Coordinator& coord = Coordinator::getCoordinator();
     coord.saveRunningConf();
-//    coord.clearTempDirectory();
+    coord.clearTempDirectory();
     QMainWindow::closeEvent(event);
 }
 

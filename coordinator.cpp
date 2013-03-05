@@ -6,6 +6,8 @@
 #include <QDataStream>
 #include <QDir>
 #include <QProcess>
+#include <QApplication>
+#include <QDebug>
 
 Coordinator* Coordinator::coord = 0;
 
@@ -50,13 +52,10 @@ void Coordinator::loadRunningConf()
     Config& conf = Config::getConfig();
     QFile file(runningConfigurationFile);
     QRegExp number("[0-9]+");
-    QStringList list;
     number.indexIn(runningConfigurationFile);
-    list << number.cap();
-    number.indexIn(runningConfigurationFile);
-    list << number.cap();
-    running_gid = list.at(0);
-    running_rid = list.at(1);
+    running_gid = number.cap();
+    number.indexIn(runningConfigurationFile, number.pos() + number.cap().length());
+    running_rid = number.cap();
     if(file.open(QFile::ReadOnly))
     {
         conf.clear();
@@ -87,7 +86,7 @@ void Coordinator::initRunningConf()
     loadCurrentConf();
     running_gid = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
     running_rid = QString::number(0);
-    runningConfigurationFile = tempDirectory + running_gid + "_" + running_rid + ".rconf";
+    genConfFile();
     saveRunningConf();
 }
 
@@ -101,17 +100,26 @@ void Coordinator::runCore(QString command)
     "core";
 #endif
     QStringList arg = command.split(" ");
-    arg.prepend(runningConfigurationFile);
+    arg.prepend(":" + runningConfigurationFile);
     QProcess proc;
-    proc.start(program, arg);
+    proc.start("./" + program, arg);
+    while(!proc.waitForFinished(100))
+    {
+        QApplication::instance()->processEvents();
+    }
     loadRunningConf();
+}
+
+void inline Coordinator::genConfFile()
+{
+    runningConfigurationFile = tempDirectory + running_gid + "_" + QString().sprintf("%03d", running_rid.toInt()) + ".rconf";
 }
 
 void Coordinator::nextRunningConf()
 {
     loadRunningConf();
     running_rid = QString::number(running_rid.toInt() + 1);
-    runningConfigurationFile = tempDirectory + running_gid + "_" + running_rid + ".rconf";
+    genConfFile();
     saveRunningConf();
 }
 
@@ -120,7 +128,7 @@ void Coordinator::previousRunningConf()
     int rid = running_rid.toInt();
     if(rid == 1) return;
     running_rid = QString::number(rid - 1);
-    runningConfigurationFile = tempDirectory + running_gid + "_" + running_rid + ".rconf";
+    genConfFile();
     loadRunningConf();
 }
 
@@ -175,8 +183,7 @@ void Coordinator::loadLostRunningConf()
 {
 
     QDir dir(tempDirectory);
-    QStringList list = dir.entryList();
-    runningConfigurationFile = "./temp/" + list.last();
+    runningConfigurationFile = dir.entryInfoList().last().filePath();
     loadRunningConf();
 }
 

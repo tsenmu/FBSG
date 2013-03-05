@@ -26,7 +26,6 @@ void Config::clear()
 void Config::read(QDataStream& in)
 {
     in >> hash;
-    qDebug()<<hash;
 }
 
 void Config::read(QString filename)

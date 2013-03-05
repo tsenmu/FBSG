@@ -41,6 +41,7 @@ private:
     QString running_gid;
     QString running_rid;
 
+    void inline genConfFile();
 };
 
 #endif // COORDINATOR_H
