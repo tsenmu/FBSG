@@ -40,8 +40,8 @@ void MainWidget::doubleClicked(const QModelIndex &ind)
 void MainWidget::on_pushButton_runNextRound_clicked()
 {
     Coordinator& coord = Coordinator::getCoordinator();
-    coord.runCore("start loan hire produce sales end report");
     coord.nextRunningConf();
+    coord.runCore("start loan hire produce sales end report");
     updateUI();
 }
 

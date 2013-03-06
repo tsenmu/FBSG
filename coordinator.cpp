@@ -124,7 +124,6 @@ void inline Coordinator::genConfFile()
 
 void Coordinator::nextRunningConf()
 {
-    loadRunningConf();
     running_rid = QString::number(running_rid.toInt() + 1);
     genConfFile();
     saveRunningConf();
