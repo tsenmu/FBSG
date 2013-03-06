@@ -44,7 +44,10 @@ void Coordinator::loadDefaultConf()
     if(QDir().exists(defaultConfigurationFile))
         conf.read(defaultConfigurationFile);
     else
+    {
         conf.genDefault();
+        conf.write(defaultConfigurationFile);
+    }
 }
 
 void Coordinator::saveCurrentConf()
