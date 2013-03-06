@@ -66,6 +66,9 @@
      <property name="selectionBehavior">
       <enum>QAbstractItemView::SelectRows</enum>
      </property>
+     <property name="sortingEnabled">
+      <bool>true</bool>
+     </property>
     </widget>
    </item>
    <item>
@@ -89,13 +92,6 @@
         </size>
        </property>
       </spacer>
-     </item>
-     <item>
-      <widget class="QPushButton" name="pushButton_ranking">
-       <property name="text">
-        <string>Ranking...</string>
-       </property>
-      </widget>
      </item>
     </layout>
    </item>

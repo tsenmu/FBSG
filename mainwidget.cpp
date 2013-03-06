@@ -33,6 +33,7 @@ void MainWidget::doubleClicked(const QModelIndex &ind)
         Player &p = PlayerManager::getManager().getPlayer(model->data(model->index(row, 0)).toString());
         DecisionWidget* dec = new DecisionWidget(&p.record);
         dec->setPlayerName(p.name);
+        dec->setRoundNumber(Coordinator::getCoordinator().runningRound());
         dec->show();
     }
 }
