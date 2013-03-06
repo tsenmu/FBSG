@@ -129,8 +129,6 @@ void Config::genDefault()
     hash["Salary maximum"] = QString::number(30000);
     hash["Adding agent cost"] = QString::number(500000);
     hash["Removing agent cost"] = QString::number(250000);
-    write("conf.d");
-    hash.clear();
 }
 
 void Config::setPlayers(const QStringList &list)
