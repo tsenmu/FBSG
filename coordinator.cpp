@@ -35,7 +35,13 @@ Coordinator& Coordinator::getCoordinator()
 void Coordinator::loadCurrentConf()
 {
     Config& conf = Config::getConfig();
-    conf.read(currentConfigurationFile);
+    if(QDir().exists(currentConfigurationFile))
+        conf.read(currentConfigurationFile);
+    else
+    {
+        conf.genDefault();
+        conf.write(currentConfigurationFile);
+    }
 }
 
 void Coordinator::loadDefaultConf()
@@ -195,29 +201,15 @@ int Coordinator::runningRound()
 
 void Coordinator::check()
 {
-    Config& conf = Config::getConfig();
-    conf.genDefault();
     QDir rootDir("./");
     QDir confDir(confDirectory);
     if(!confDir.exists())
     {
         rootDir.mkdir(confDirectory);
     }
-    QFile defaultConf(defaultConfigurationFile);
-    if(!defaultConf.exists())
-    {
-        conf.write(defaultConfigurationFile);
-        conf.clear();
-    }
-    QFile currentConf(currentConfigurationFile);
-    if(!currentConf.exists())
-    {
-        this->saveCurrentConf();
-    }
     QDir tempDir(tempDirectory);
     if(!tempDir.exists())
     {
         rootDir.mkdir(tempDirectory);
     }
-    conf.clear();
 }
