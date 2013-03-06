@@ -154,3 +154,18 @@ void Config::setMarkets(const QStringList &list)
     var.chop(2);
     set("markets", var);
 }
+
+void Config::save()
+{
+    backup_hash = hash;
+}
+
+void Config::backup()
+{
+    hash = backup_hash;
+}
+
+bool Config::validate()
+{
+    return !hash.empty();
+}

@@ -63,8 +63,8 @@ void MainWidget::updateUI()
     Coordinator& coord = Coordinator::getCoordinator();
     coord.loadRunningConf();
     ui->label_round->setText(QString::number(coord.runningRound()));
-    ui->pushButton_restorePreviousRound->setEnabled(coord.runningRound() != 1);
-    ui->pushButton_saveReport->setEnabled(coord.runningRound() != 1);
+    ui->pushButton_restorePreviousRound->setEnabled(coord.runningRound() != startingRound);
+    ui->pushButton_saveReport->setEnabled(coord.runningRound() != startingRound);
     PlayerManager &pm = PlayerManager::getManager();
     for(int i = 0, c = model->rowCount(); i < c; i++)
     {
@@ -95,6 +95,13 @@ void MainWidget::ini()
         items << itemPlayer<< itemBalance;
         model->appendRow(items);
     }
+    startingRound = 1;
+    updateUI();
+}
+
+void MainWidget::setStartingRound(const int round)
+{
+    startingRound = round + 1;
     updateUI();
 }
 

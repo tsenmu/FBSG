@@ -92,11 +92,36 @@ void Coordinator::saveRunningConf()
     }
 }
 
-void Coordinator::initRunningConf()
+void Coordinator::saveToFile(const QString& fileName)
+{
+    Config& conf = Config::getConfig();
+    QFile file(fileName);
+    if(file.open(QFile::WriteOnly))
+    {
+        QDataStream stream(&file);
+        conf.write(stream);
+        PlayerManager::getManager().write(stream);
+    }
+}
+
+void Coordinator::loadFromFile(const QString& fileName)
+{
+    Config& conf = Config::getConfig();
+    QFile file(fileName);
+    if(file.open(QFile::ReadOnly))
+    {
+        conf.clear();
+        QDataStream stream(&file);
+        conf.read(stream);
+        PlayerManager::getManager().read(stream);
+    }
+}
+
+void Coordinator::initRunningConf(const int round)
 {
     loadCurrentConf();
     running_gid = QString::number(QDateTime::currentDateTime().toMSecsSinceEpoch());
-    running_rid = QString::number(0);
+    running_rid = QString::number(round);
     genConfFile();
     saveRunningConf();
 }

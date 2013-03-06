@@ -3,7 +3,9 @@
 #include "coordinator.h"
 #include "config.h"
 #include <QMessageBox>
+#include <QFileDialog>
 #include <QDebug>
+#include "playermanager.h"
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
@@ -32,13 +34,35 @@ void MainWindow::on_action_close_triggered()
 
 void MainWindow::on_action_loadGame_triggered()
 {
-
+    Coordinator& coord = Coordinator::getCoordinator();
+    Config& conf = Config::getConfig();
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Open File"),
+                                                     "",
+                                                     tr("Files (*.sconf)"));
+    conf.save();
+    if(!fileName.isNull())
+    {
+        coord.loadFromFile(fileName);
+        if(!conf.validate())
+        {
+            conf.backup();
+            QMessageBox::warning(this, "Warning", "Error while reading file.");
+        }
+        else
+        {
+            int round = Player::globalRecord["round"].toInt();
+            coord.clearTempDirectory();
+            coord.initRunningConf(round);
+            conf.read(fileName);
+            coord.saveRunningConf();
+            ui->page_main->ini();
+            qDebug() << 1 << round;
+            ui->page_main->setStartingRound(round);
+            switchToPage(pageMap[ui->page_main]);
+        }
+    }
 }
 
-void MainWindow::on_action_about_triggered()
-{
-
-}
 
 void MainWindow::on_action_configuration_triggered()
 {
@@ -50,15 +74,8 @@ void MainWindow::switchToPage(int index)
 {
     previousIndex = ui->stackedWidget->currentIndex();
     ui->stackedWidget->setCurrentIndex(index);
-
-    if(index != pageMap[ui->page_menu])
-    {
-        ui->action_configuration->setEnabled(false);
-    }
-    else
-    {
-        ui->action_configuration->setEnabled(true);
-    }
+    ui->action_configuration->setEnabled(index == pageMap[ui->page_menu]);
+    ui->action_saveGame->setEnabled(index == pageMap[ui->page_main]);
 }
 
 void MainWindow::back_emitted()
@@ -84,7 +101,7 @@ void MainWindow::initStackedWidget()
     {
         pageMap[ui->stackedWidget->widget(i)] = i;
     }
-    switchToPage(0);
+    switchToPage(pageMap[ui->page_menu]);
     previousIndex = 0;
     connect(ui->page_conf, SIGNAL(back()), this, SLOT(back_emitted()));
     connect(ui->page_menu, SIGNAL(loadGame()), this, SLOT(on_action_loadGame_triggered()));
@@ -126,6 +143,23 @@ void MainWindow::showEvent(QShowEvent *event)
             ui->page_main->ini();
             switchToPage(this->pageMap[ui->page_main]);
         }
+        else
+        {
+            coord.clearTempDirectory();
+        }
     }
     QMainWindow::showEvent(event);
+}
+
+void MainWindow::on_action_saveGame_triggered()
+{
+    QString fileName = QFileDialog::getSaveFileName(this, tr("Open File"),
+                                                     "./untitled.sconf",
+                                                     tr("Files (*.sconf)"));
+    if(!fileName.isNull())
+    {
+        Coordinator& coord = Coordinator::getCoordinator();
+        coord.saveToFile(fileName);
+        QMessageBox::information(this, "Information", "Saved successfully.");
+    }
 }
