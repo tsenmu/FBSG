@@ -9,6 +9,8 @@
 #include <QStandardItem>
 #include <QProcess>
 #include <QFileDialog>
+#include <QDebug>
+#include <QMessageBox>
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -45,10 +47,14 @@ void MainWidget::on_pushButton_runNextRound_clicked()
 
 void MainWidget::on_pushButton_restorePreviousRound_clicked()
 {
+    int ret = QMessageBox::warning(this, "Warning", "Restoring previous round will cause current round to be removed permanently. Do you want to continue?", QMessageBox::Yes, QMessageBox::No);
+    if(ret != QMessageBox::Yes)
+    {
+        return;
+    }
     Coordinator& coord = Coordinator::getCoordinator();
     coord.previousRunningConf();
     updateUI();
-
 }
 
 void MainWidget::updateUI()

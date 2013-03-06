@@ -132,11 +132,14 @@ void Coordinator::nextRunningConf()
 
 void Coordinator::previousRunningConf()
 {
+    QFile file(this->runningConfigurationFile);
+    file.remove();
     int rid = running_rid.toInt();
-    if(rid == 1) return;
     running_rid = QString::number(rid - 1);
     genConfFile();
     loadRunningConf();
+    if(rid == 0) return;
+    runCore("end report");
 }
 
 QStringList Coordinator::runningRounds() const
