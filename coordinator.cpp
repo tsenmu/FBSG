@@ -14,18 +14,21 @@ Coordinator* Coordinator::coord = 0;
 Coordinator::Coordinator(const QString& defaultConf,
                          const QString& currentConf,
                          const QString& tempDir,
+                         const QString& confDir,
                          QObject *parent) : QObject(parent)
 {
-    defaultConfigurationFile = defaultConf;
-    currentConfigurationFile = currentConf;
+    confDirectory = confDir;
+    defaultConfigurationFile = confDirectory + defaultConf;
+    currentConfigurationFile = confDirectory + currentConf;
     tempDirectory = tempDir;
+    check();
 }
 
 Coordinator& Coordinator::getCoordinator()
 {
     if(coord == 0)
-        coord = new Coordinator("./config/default.conf","./config/current.conf",
-                                "./temp/", 0);
+        coord = new Coordinator("default.conf","current.conf",
+                                "./temp/", "./config/", 0);
     return *coord;
 }
 
@@ -66,10 +69,6 @@ void Coordinator::loadRunningConf()
         conf.read(stream);
         PlayerManager::getManager().read(stream);
     }
-//    else
-//    {
-//        qDebug() << "Error reading file";
-//    }
 }
 
 void Coordinator::saveRunningConf()
@@ -189,4 +188,35 @@ void Coordinator::loadLostRunningConf()
 int Coordinator::runningRound()
 {
     return running_rid.toInt() + 1;
+}
+
+void Coordinator::check()
+{
+    Config& conf = Config::getConfig();
+    conf.genDefault();
+    QDir rootDir("./");
+    QDir confDir(confDirectory);
+    if(!confDir.exists())
+    {
+        rootDir.mkdir(confDirectory);
+    }
+    QFile defaultConf(defaultConfigurationFile);
+    if(!defaultConf.exists())
+    {
+        conf.genDefault();
+        conf.write(defaultConfigurationFile);
+        conf.clear();
+    }
+    QFile currentConf(currentConfigurationFile);
+    if(!currentConf.exists())
+    {
+        conf.genDefault();
+        this->saveCurrentConf();
+    }
+    QDir tempDir(tempDirectory);
+    if(!tempDir.exists())
+    {
+        rootDir.mkdir(tempDirectory);
+    }
+    conf.clear();
 }

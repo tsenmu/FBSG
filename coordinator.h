@@ -25,6 +25,9 @@ public:
     QStringList runningRounds() const;
     void runCore(QString command);
 
+    void check();
+
+
 signals:
     
 public slots:
@@ -32,11 +35,14 @@ public slots:
 private:
     explicit Coordinator(const QString& defaultConf,
                          const QString& currentConf,
-                         const QString& tempDir,QObject *parent = 0);
+                         const QString& tempDir,
+                         const QString& confDir,
+                         QObject *parent = 0);
     static Coordinator* coord;
     QString defaultConfigurationFile;
     QString currentConfigurationFile;
     QString runningConfigurationFile;
+    QString confDirectory;
     QString tempDirectory;
     QString running_gid;
     QString running_rid;
