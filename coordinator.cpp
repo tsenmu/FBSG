@@ -203,14 +203,12 @@ void Coordinator::check()
     QFile defaultConf(defaultConfigurationFile);
     if(!defaultConf.exists())
     {
-        conf.genDefault();
         conf.write(defaultConfigurationFile);
         conf.clear();
     }
     QFile currentConf(currentConfigurationFile);
     if(!currentConf.exists())
     {
-        conf.genDefault();
         this->saveCurrentConf();
     }
     QDir tempDir(tempDirectory);
