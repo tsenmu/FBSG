@@ -31,6 +31,9 @@ signals:
     void endGame();
     void backToMenu();
     
+private slots:
+    void on_pushButton_saveReport_clicked();
+
 private:
     Ui::MainWidget *ui;
     QStandardItemModel* model;

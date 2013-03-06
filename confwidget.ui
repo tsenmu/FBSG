@@ -20,7 +20,7 @@
       <enum>Qt::LeftToRight</enum>
      </property>
      <property name="currentIndex">
-      <number>0</number>
+      <number>2</number>
      </property>
      <widget class="QWidget" name="tab_basic">
       <attribute name="title">
@@ -38,7 +38,7 @@
             <x>0</x>
             <y>0</y>
             <width>634</width>
-            <height>336</height>
+            <height>328</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout_7">
@@ -172,7 +172,7 @@
             <x>0</x>
             <y>0</y>
             <width>634</width>
-            <height>336</height>
+            <height>328</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout_8">
@@ -239,8 +239,8 @@
            <rect>
             <x>0</x>
             <y>0</y>
-            <width>634</width>
-            <height>336</height>
+            <width>616</width>
+            <height>363</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout">
@@ -446,7 +446,7 @@
             <x>0</x>
             <y>0</y>
             <width>634</width>
-            <height>336</height>
+            <height>328</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout_2">
@@ -539,7 +539,7 @@
             <x>0</x>
             <y>0</y>
             <width>634</width>
-            <height>336</height>
+            <height>328</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout_6">
@@ -649,7 +649,7 @@
             <x>0</x>
             <y>0</y>
             <width>634</width>
-            <height>336</height>
+            <height>328</height>
            </rect>
           </property>
           <layout class="QFormLayout" name="formLayout_3">

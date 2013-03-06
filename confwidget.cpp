@@ -111,7 +111,7 @@ void ConfWidget::loadFromConf()
     ui->spinBox_consultantCostPer30Minutes->setValue(conf.get("Consultant cost per 30 minutes").toInt());
     ui->spinBox_daysInAMonth->setValue(conf.get("Days in a month").toInt());
     ui->spinBox_engineersInAProduct->setValue(conf.get("Engineers in a product").toInt());
-    ui->spinBox_hoursForATeamInAProduct->setValue(conf.get("Hours for a team in a product").toInt());
+    ui->spinBox_hoursForATeamInAProduct->setValue(conf.get("Hours in a product").toInt());
     ui->spinBox_hoursInAComponent->setValue(conf.get("Hours in a component").toInt());
     ui->spinBox_initialCash->setValue(conf.get("Initial cash").toInt());
     ui->spinBox_marketPopulation->setValue(conf.get("Market population").toInt());
@@ -145,7 +145,7 @@ void ConfWidget::saveToConf()
     conf.set("Consultant cost per 30 minutes", QString::number(ui->spinBox_consultantCostPer30Minutes->value()));
     conf.set("Days in a month", QString::number(ui->spinBox_daysInAMonth->value()));
     conf.set("Engineers in a product", QString::number(ui->spinBox_engineersInAProduct->value()));
-    conf.set("Hours for a team in a product", QString::number(ui->spinBox_hoursForATeamInAProduct->value()));
+    conf.set("Hours in a product", QString::number(ui->spinBox_hoursForATeamInAProduct->value()));
     conf.set("Hours in a component", QString::number(ui->spinBox_hoursInAComponent->value()));
     conf.set("Initial cash", QString::number(ui->spinBox_initialCash->value()));
     conf.set("Market population", QString::number(ui->spinBox_marketPopulation->value()));

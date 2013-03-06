@@ -41,7 +41,10 @@ void Coordinator::loadCurrentConf()
 void Coordinator::loadDefaultConf()
 {
     Config& conf = Config::getConfig();
-    conf.read(defaultConfigurationFile);
+    if(QDir().exists(defaultConfigurationFile))
+        conf.read(defaultConfigurationFile);
+    else
+        conf.genDefault();
 }
 
 void Coordinator::saveCurrentConf()
@@ -92,12 +95,7 @@ void Coordinator::initRunningConf()
 void Coordinator::runCore(QString command)
 {
     saveRunningConf();
-    static const QString program =
-#ifdef WINDOWS
-    "core.exe";
-#else
-    "core";
-#endif
+    static const QString program = "core.exe";
     QStringList arg = command.split(" ");
     arg.prepend(":" + runningConfigurationFile);
     QProcess proc;
@@ -106,6 +104,7 @@ void Coordinator::runCore(QString command)
     {
         QApplication::instance()->processEvents();
     }
+    qDebug() << arg << proc.readAll();
     loadRunningConf();
 }
 

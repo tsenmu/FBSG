@@ -7,7 +7,8 @@
 #include <QDesktopWidget>
 #include <QStandardItemModel>
 #include <QStandardItem>
-#include <QDebug>
+#include <QProcess>
+#include <QFileDialog>
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -27,7 +28,9 @@ void MainWidget::doubleClicked(const QModelIndex &ind)
     int row = ind.row();
     if(row >= 0 && row < model->rowCount())
     {
-        DecisionWidget* dec = new DecisionWidget(&PlayerManager::getManager().getPlayer(model->data(model->index(row, 0)).toString()).record);
+        Player &p = PlayerManager::getManager().getPlayer(model->data(model->index(row, 0)).toString());
+        DecisionWidget* dec = new DecisionWidget(&p.record);
+        dec->setPlayerName(p.name);
         dec->show();
     }
 }
@@ -35,8 +38,8 @@ void MainWidget::doubleClicked(const QModelIndex &ind)
 void MainWidget::on_pushButton_runNextRound_clicked()
 {
     Coordinator& coord = Coordinator::getCoordinator();
-    coord.nextRunningConf();
     coord.runCore("start loan hire produce sales end report");
+    coord.nextRunningConf();
     updateUI();
 }
 
@@ -78,9 +81,9 @@ void MainWidget::ini()
     foreach(QString player, conf.getPlayers())
     {
         QList<QStandardItem*> items;
-        QStandardItem* itemPlayer = new QStandardItem();
+        QStandardItem* itemPlayer = new QStandardItem;
         itemPlayer->setText(player);
-        QStandardItem* itemBalance = new QStandardItem();
+        QStandardItem* itemBalance = new QStandardItem;
         itemBalance->setText("0");
         items << itemPlayer<< itemBalance;
         model->appendRow(items);
@@ -103,3 +106,23 @@ void MainWidget::on_pushButton_backToMenu_clicked()
     emit backToMenu();
 }
 
+void MainWidget::on_pushButton_saveReport_clicked()
+{
+    QString path = QFileDialog::getExistingDirectory();
+    if(path.isEmpty())
+        return;
+    QStringList list;
+    foreach(QString item, QDir().entryList())
+    {
+        if(item.endsWith(".html"))
+            list.append(item);
+    }
+    for(int i = 0, c = list.size(); i < c; i++)
+    {
+        QProcess proc;
+        QString name = list.at(i);
+        name.chop(4);
+        proc.start("./SaveReports.exe", QStringList() << path + "/" + name + "pdf" << name + "html");
+        proc.waitForFinished();
+    }
+}
