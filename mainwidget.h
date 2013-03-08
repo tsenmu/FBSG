@@ -33,6 +33,9 @@ private slots:
     void doubleClicked(const QModelIndex& ind);
     void updateUI();
     void on_pushButton_saveReport_clicked();
+
+    void on_tableView_customContextMenuRequested(const QPoint &pos);
+
 private:
     Ui::MainWidget *ui;
     QStandardItemModel* model;

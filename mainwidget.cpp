@@ -11,6 +11,8 @@
 #include <QFileDialog>
 #include <QDebug>
 #include <QMessageBox>
+#include <QInputDialog>
+#include <QTimer>
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -42,7 +44,13 @@ void MainWidget::on_pushButton_runNextRound_clicked()
 {
     Coordinator& coord = Coordinator::getCoordinator();
     coord.nextRunningConf();
-    coord.runCore("start loan hire produce sales end report");
+    coord.runCore("start loan hire produce sales");
+    PlayerManager& pm = PlayerManager::getManager();
+    foreach(QString name, Config::getConfig().getPlayers())
+    {
+        pm.getPlayer(name).record["bonus"] = "0";
+    }
+    coord.saveRunningConf();
     updateUI();
 }
 
@@ -122,6 +130,7 @@ void MainWidget::on_pushButton_backToMenu_clicked()
 
 void MainWidget::on_pushButton_saveReport_clicked()
 {
+    Coordinator::getCoordinator().runCore("end report");
     QString path = QFileDialog::getExistingDirectory();
     if(path.isEmpty())
         return;
@@ -138,5 +147,26 @@ void MainWidget::on_pushButton_saveReport_clicked()
         name.chop(4);
         proc.start("./SaveReports.exe", QStringList() << path + "/" + name + "pdf" << name + "html");
         proc.waitForFinished();
+    }
+}
+
+void MainWidget::on_tableView_customContextMenuRequested(const QPoint &pos)
+{
+    int row = ui->tableView->rowAt(pos.y());
+    if(row > -1)
+    {
+        QString pName = model->data(model->index(row, 0)).toString();
+        PlayerManager& pm = PlayerManager::getManager();
+        Player& player = pm.getPlayer(pName);
+        int bonus = player.record["bonus"].toInt();
+        bool ok;
+        int nb = QInputDialog::getInt(this, "Bonus", "Set bonus for " + pName, bonus, -2147483647, 2147483647, 1, &ok);
+        if(ok && nb != bonus)
+        {
+            player.record["bonus"] = QString::number(nb);
+            player.cash = player.cash - bonus + nb;
+            Coordinator::getCoordinator().saveRunningConf();
+            QTimer::singleShot(10, this, SLOT(updateUI()));
+        }
     }
 }
