@@ -44,19 +44,13 @@
     </property>
     <addaction name="action_newGame"/>
     <addaction name="action_loadGame"/>
+    <addaction name="action_saveGame"/>
     <addaction name="separator"/>
     <addaction name="action_configuration"/>
     <addaction name="separator"/>
     <addaction name="action_close"/>
    </widget>
-   <widget class="QMenu" name="menuHelp">
-    <property name="title">
-     <string>&amp;Help</string>
-    </property>
-    <addaction name="action_about"/>
-   </widget>
    <addaction name="menuGame"/>
-   <addaction name="menuHelp"/>
   </widget>
   <action name="action_newGame">
    <property name="text">
@@ -100,6 +94,14 @@
   <action name="action_configuration">
    <property name="text">
     <string>Configuration...</string>
+   </property>
+  </action>
+  <action name="action_saveGame">
+   <property name="text">
+    <string>&amp;Save Game</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
  </widget>

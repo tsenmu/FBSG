@@ -9,6 +9,8 @@
 #include <QStandardItem>
 #include <QProcess>
 #include <QFileDialog>
+#include <QDebug>
+#include <QMessageBox>
 
 MainWidget::MainWidget(QWidget *parent) :
     QWidget(parent),
@@ -46,10 +48,14 @@ void MainWidget::on_pushButton_runNextRound_clicked()
 
 void MainWidget::on_pushButton_restorePreviousRound_clicked()
 {
+    int ret = QMessageBox::warning(this, "Warning", "Restoring previous round will cause current round to be removed permanently. Do you want to continue?", QMessageBox::Yes, QMessageBox::No);
+    if(ret != QMessageBox::Yes)
+    {
+        return;
+    }
     Coordinator& coord = Coordinator::getCoordinator();
     coord.previousRunningConf();
     updateUI();
-
 }
 
 void MainWidget::updateUI()
@@ -57,8 +63,8 @@ void MainWidget::updateUI()
     Coordinator& coord = Coordinator::getCoordinator();
     coord.loadRunningConf();
     ui->label_round->setText(QString::number(coord.runningRound()));
-    ui->pushButton_restorePreviousRound->setEnabled(coord.runningRound() != 1);
-    ui->pushButton_saveReport->setEnabled(coord.runningRound() != 1);
+    ui->pushButton_restorePreviousRound->setEnabled(coord.runningRound() != startingRound);
+    ui->pushButton_saveReport->setEnabled(coord.runningRound() != startingRound);
     PlayerManager &pm = PlayerManager::getManager();
     for(int i = 0, c = model->rowCount(); i < c; i++)
     {
@@ -89,6 +95,13 @@ void MainWidget::ini()
         items << itemPlayer<< itemBalance;
         model->appendRow(items);
     }
+    startingRound = 1;
+    updateUI();
+}
+
+void MainWidget::setStartingRound(const int round)
+{
+    startingRound = round + 1;
     updateUI();
 }
 

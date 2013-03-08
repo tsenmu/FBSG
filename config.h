@@ -15,6 +15,9 @@ public:
     void read(QString filename);
     void write(QDataStream& out);
     void write(QString filename);
+    void save();
+    void backup();
+    bool validate();
     void set(QString key, QString value);
     void genDefault();
     QString get(QString key);
@@ -29,6 +32,7 @@ private:
     explicit Config();
     static Config config;
     QHash<QString,QString> hash;
+    QHash<QString, QString> backup_hash;
 };
 
 #endif // CONFIG_H

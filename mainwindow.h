@@ -21,7 +21,7 @@ public slots:
     void on_action_newGame_triggered();
     void on_action_close_triggered();
     void on_action_loadGame_triggered();
-    void on_action_about_triggered();
+    void on_action_saveGame_triggered();
     void on_action_configuration_triggered();
     void on_pushButton_configuration_clicked();
     void back_emitted();

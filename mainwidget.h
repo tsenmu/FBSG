@@ -20,23 +20,23 @@ public:
     ~MainWidget();
 
 public slots:
+    void ini();
+    void setStartingRound(const int round = 1);
+signals:
+    void endGame();
+    void backToMenu();
+private slots:
     void on_pushButton_endGame_clicked();
     void on_pushButton_backToMenu_clicked();
     void on_pushButton_runNextRound_clicked();
     void on_pushButton_restorePreviousRound_clicked();
-    void updateUI();
-    void ini();
     void doubleClicked(const QModelIndex& ind);
-signals:
-    void endGame();
-    void backToMenu();
-    
-private slots:
+    void updateUI();
     void on_pushButton_saveReport_clicked();
-
 private:
     Ui::MainWidget *ui;
     QStandardItemModel* model;
+    int startingRound;
 };
 
 #endif // MAINWIDGET_H

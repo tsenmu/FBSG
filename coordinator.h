@@ -16,9 +16,11 @@ public:
     void loadLostRunningConf();
     void loadRunningConf();
     void saveRunningConf();
-    void initRunningConf();
+    void initRunningConf(const int round = 0);
     void nextRunningConf();
     void previousRunningConf();
+    void saveToFile(const QString& fileName);
+    void loadFromFile(const QString& fileName);
     int runningRound();
 
     void clearTempDirectory();
